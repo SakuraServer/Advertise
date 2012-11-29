@@ -1,0 +1,4 @@
+Advertise
+=========
+
+CraftBukkit Advertise Plugin
