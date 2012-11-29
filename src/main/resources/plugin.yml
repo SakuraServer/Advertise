@@ -1,0 +1,18 @@
+##  Plugin Information  ##
+name: Advertise
+version: version-number-unknown
+main: syam.advertise.Advertise
+description: Advertise Plugin
+website: http://sakura-server.net/
+softdepend: [Vault]
+##  Original Author     ##
+author: syam
+commands:
+    advertise:
+      usage: /advertise - to see the help
+      aliases: [ad]
+      description: To see the Advertise help.
+permissions:
+    advertise.admin:
+        default: op
+        description: Allow use admin commands
