@@ -4,6 +4,8 @@
  */
 package syam.advertise.announce;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -11,7 +13,9 @@ import org.bukkit.entity.Player;
 
 import syam.advertise.Advertise;
 import syam.advertise.Perms;
+import syam.advertise.database.Database;
 import syam.advertise.util.Actions;
+import syam.advertise.util.Util;
 
 /**
  * AnnounceTask (AnnounceTask.java)
@@ -29,17 +33,27 @@ public class AnnounceTask implements Runnable{
     }
 
     public void run(){
-        String announce = plugin.getManager().getNextMessage();
-        if (announce == null || announce.length() <= 0){
+        final int data_ID = plugin.getManager().getNextID();
+        Ad ad = new Ad(data_ID);
+        if (ad.getText() == null || ad.getText().length() <= 0){
             return;
         }
-        announce = plugin.getConfigs().getPrefix() + announce;
 
+        String text = plugin.getConfigs().getPrefix() + "&6" + ad.getPlayerName() + "&7: &f" + ad.getText();
+        int i = 0;
         for (Player player : Bukkit.getOnlinePlayers()){
             if (!plugin.getConfigs().getUseHidePerm() || !Perms.HIDE_ADVERTISE.has(player)){
-                Actions.message(player, announce.replace("%player%", player.getName()));
+                Actions.message(player, text.replace("%player%", player.getName()));
+                i++;
             }
         }
-        log.info(announce.replace("%player%", "CONSOLE"));
+        log.info(text.replace("%player%", "CONSOLE"));
+
+        // update stats
+        if (i > 0){
+            ad.addViewCount(1);
+            ad.addViewPlayers(i);
+            ad.save();
+        }
     }
 }

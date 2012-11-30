@@ -60,7 +60,7 @@ public class RemoveCommand extends BaseCommand {
                 throw new CommandException("&c指定したIDはあなたの広告ではありません！");
             }
         }
-        if (ad_status != 0 || ad_expired > Util.getCurrentUnixSec()){
+        if (ad_status != 0 || ad_expired <= Util.getCurrentUnixSec()){
             throw new CommandException("&c指定したIDはアクティブ広告ではありません！");
         }
 

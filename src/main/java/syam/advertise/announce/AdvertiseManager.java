@@ -4,6 +4,8 @@
  */
 package syam.advertise.announce;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import syam.advertise.Advertise;
@@ -25,12 +27,36 @@ public class AdvertiseManager {
     private int taskID = -1;
     Database db = Advertise.getDatabases();
 
+    // lastMessageID
+    private int lastID = 0;
+
     public AdvertiseManager (final Advertise plugin){
         this.plugin = plugin;
     }
 
-    public String getNextMessage(){
-        return "&cSAKURA ADVERTISEMENT! Hello, &b%player%&c! (testing!)";
+    public int getNextID(){
+        HashMap<Integer, ArrayList<String>> records = db.read("SELECT `data_id` FROM " + db.dataTable + " WHERE `expired` > ? AND `status` = 0", Util.getCurrentUnixSec().intValue());
+        if (records == null || records.size() <= 0) {
+            return -1;
+        }
+
+        boolean found = false;
+        int data_id = -1;
+        for(ArrayList<String> record : records.values()){
+            data_id = Integer.parseInt(record.get(0));
+            if (data_id > lastID){
+                lastID = data_id;
+                found = true;
+                break;
+            }
+        }
+        if (!found){
+            // not 0, first index: 1
+            data_id = Integer.parseInt(records.get(1).get(0));
+            lastID = 0;
+        }
+
+        return data_id;
     }
 
     /**
@@ -50,6 +76,10 @@ public class AdvertiseManager {
                 playerID, registered.intValue(), expired.intValue(), text);
     }
 
+    /**
+     * 広告を削除
+     * @param adv_id
+     */
     public void removeAdvertise(final int adv_id){
         db.write("UPDATE " + db.dataTable + " SET `status` = 1 WHERE `data_id` = ?", adv_id);
     }
