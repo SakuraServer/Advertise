@@ -49,7 +49,11 @@ public class AddCommand extends BaseCommand {
         int userID = plugin.getManager().getUserID(player.getName(), true);
         int already = db.getInt("SELECT COUNT(*) FROM " + db.dataTable + " WHERE `player_id` = ? AND `expired` > ? AND `status` = 0", userID, Util.getCurrentUnixSec().intValue());
         if (already >= config.getMaxPerPlayer()){
-            throw new CommandException("&c既に上限数(" + config.getMaxPerPlayer() + "個)の広告を登録しています！");
+            throw new CommandException("&c既にあなたの上限(" + config.getMaxPerPlayer() + "個)の広告を登録しています！");
+        }
+        already = db.getInt("SELECT COUNT(*) FROM " + db.dataTable + " WHERE `expired` > ? AND `status` = 0", Util.getCurrentUnixSec().intValue());
+        if (already >= config.getMaxActiveAds()){
+            throw new CommandException("&c既にサーバ全体の上限(" + config.getMaxActiveAds() + "個)の広告が登録されています！");
         }
 
         // pay cost

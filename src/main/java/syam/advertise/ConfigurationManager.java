@@ -118,6 +118,9 @@ public class ConfigurationManager {
     public int getMaxPerPlayer(){
         return conf.getInt("MaxPerPlayer", 5);
     }
+    public int getMaxActiveAds(){
+        return conf.getInt("MaxActiveAds", 30);
+    }
 
     // Vault
     public boolean getUseVault() {

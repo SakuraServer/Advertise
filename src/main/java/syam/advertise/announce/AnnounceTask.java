@@ -63,7 +63,8 @@ public class AnnounceTask implements Runnable{
             return;
         }
 
-        String text = plugin.getConfigs().getPrefix() + "&6" + ad.getPlayerName() + "&7: &f" + ad.getText();
+        // default ad color: &3
+        String text = plugin.getConfigs().getPrefix() + "&6" + ad.getPlayerName() + "&7: &3" + ad.getText();
         int i = 0;
         for (Player player : Bukkit.getOnlinePlayers()){
             if (!plugin.getConfigs().getUseHidePerm() || !Perms.HIDE_ADVERTISE.has(player)){

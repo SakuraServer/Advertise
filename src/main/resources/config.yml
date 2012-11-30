@@ -17,6 +17,7 @@ UseHidePermission: false
 #==================#
 MaxDays: 7
 MaxPerPlayer: 5
+MaxActiveAds: 30
 
 #==================#
 #   Vault Config   #
