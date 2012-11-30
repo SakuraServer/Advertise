@@ -17,6 +17,7 @@ public enum Perms {
     ADD ("user.add"),
     REMOVE ("user.remove"),
     LIST_SELF ("user.list"),
+    INFO_SELF ("user.info"),
 
     // Free Permissions
     ADD_FREE ("free.add"),
@@ -26,6 +27,7 @@ public enum Perms {
 
     // Admin Commands
     LIST_OTHER ("admin.list"),
+    INFO_OTHER ("admin.info"),
     TASK("admin.task"),
     FORCE("admin.force"),
     RELOAD("admin.reload"),
