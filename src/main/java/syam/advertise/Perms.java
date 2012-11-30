@@ -15,8 +15,8 @@ public enum Perms {
     /* 権限ノード */
     // User Commands
     ADD ("user.add"),
-    LIST_SELF ("user.list.self"),
-    LIST_OTHER ("user.list.other"),
+    REMOVE ("user.remove"),
+    LIST_SELF ("user.list"),
 
     // Free Permissions
     ADD_FREE ("free.add"),
@@ -25,6 +25,7 @@ public enum Perms {
     HIDE_ADVERTISE("hide"),
 
     // Admin Commands
+    LIST_OTHER ("admin.list"),
     TASK("admin.task"),
     RELOAD("admin.reload"),
 

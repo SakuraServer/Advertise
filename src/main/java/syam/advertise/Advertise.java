@@ -27,6 +27,7 @@ import syam.advertise.command.BaseCommand;
 import syam.advertise.command.HelpCommand;
 import syam.advertise.command.ListCommand;
 import syam.advertise.command.ReloadCommand;
+import syam.advertise.command.RemoveCommand;
 import syam.advertise.command.TaskCommand;
 import syam.advertise.database.Database;
 import syam.advertise.util.Metrics;
@@ -140,6 +141,7 @@ public class Advertise extends JavaPlugin {
         // Main Commands
         commands.add(new AddCommand());
         commands.add(new ListCommand());
+        commands.add(new RemoveCommand());
 
         // Admin Commands
         commands.add(new TaskCommand());

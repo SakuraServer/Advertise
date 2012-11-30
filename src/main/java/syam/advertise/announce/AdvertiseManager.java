@@ -50,6 +50,10 @@ public class AdvertiseManager {
                 playerID, registered.intValue(), expired.intValue(), text);
     }
 
+    public void removeAdvertise(final int adv_id){
+        db.write("UPDATE " + db.dataTable + " SET `status` = 1 WHERE `data_id` = ?", adv_id);
+    }
+
     /**
      * Get player_id from Database
      * @param playerName
