@@ -11,8 +11,18 @@ Prefix: "&c[Ad]&f "
 AnnounceInterval: 5
 # Use hide permission (advertise.hide)
 UseHidePermission: false
+
+#==================#
+#   Limit Config   #
+#==================#
+MaxDays: 7
+
+#==================#
+#   Vault Config   #
+#==================#
 # Use Vauld plugin
 UseVault: false
+CostPerDay: 1000
 
 #==================#
 #   MySQL Config   #

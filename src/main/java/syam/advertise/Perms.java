@@ -13,9 +13,14 @@ import org.bukkit.permissions.Permissible;
  */
 public enum Perms {
     /* 権限ノード */
-    // Main Commands
-    HIDE_ADVERTISE("hide"),
+    // User Commands
+    ADD ("user.add"),
 
+    // Free Permissions
+    ADD_FREE ("free.add"),
+
+    // Spec Permissions
+    HIDE_ADVERTISE("hide"),
 
     // Admin Commands
     TASK("admin.task"),

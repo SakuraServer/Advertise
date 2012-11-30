@@ -112,11 +112,20 @@ public class ConfigurationManager {
         return conf.getBoolean("UseHidePermission", false);
     }
 
+    // Limit
+    public int getMaxDays(){
+        return conf.getInt("MaxDays", 7);
+    }
+
+    // Vault
     public boolean getUseVault() {
         return useVault;
     }
     public void setUseVault(final boolean bool) {
         this.useVault = bool;
+    }
+    public double getCostPerDay(){
+        return conf.getDouble("CostPerDay", 1000.0D);
     }
 
     // MySQL
