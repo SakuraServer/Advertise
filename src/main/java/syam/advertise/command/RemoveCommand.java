@@ -30,8 +30,6 @@ public class RemoveCommand extends BaseCommand {
 
     @Override
     public void execute() throws CommandException {
-        boolean console = (!(sender instanceof Player));
-
         // check id
         if (!Util.isInteger(args.get(0))){
             throw new CommandException("&cNot a number: " + args.get(0));
@@ -53,25 +51,39 @@ public class RemoveCommand extends BaseCommand {
         Long ad_expired = Long.parseLong(data.get(2));
         String ad_text = data.get(3);
 
-        // consoleなら所有者チェックをバイパス
-        if (!console){
+        // bypass check
+        boolean other = false;
+        if (sender instanceof Player){
             int userID = plugin.getManager().getUserID(player.getName(), false);
             if (ad_userID != userID){
-                throw new CommandException("&c指定したIDはあなたの広告ではありません！");
+                if (!Perms.REMOVE_OTHER.has(sender)){
+                    throw new CommandException("&c指定したIDはあなたの広告ではありません！");
+                }else{
+                    other = true;
+                }
             }
+        }else{
+            other = true;
         }
+
         if (ad_status != 0 || ad_expired <= Util.getCurrentUnixSec()){
             throw new CommandException("&c指定したIDはアクティブ広告ではありません！");
         }
 
-        plugin.getManager().removeAdvertise(data_id);
+        // remove
+        plugin.getManager().removeAdvertise(data_id, other);
 
+        // send message
         Actions.message(sender, "&a次の広告(#" + data_id + ")を削除しました！");
         Actions.message(sender, "&7->&f " + ad_text);
+        if (other){
+            Actions.message(sender, msgPrefix + "&c次の広告(#" + data_id + ")はスタッフ &6" + sender.getName() + "&cによって削除されました");
+            Actions.message(sender, "&7->&f " + ad_text);
+        }
     }
 
     @Override
     public boolean permission() {
-        return Perms.ADD.has(sender);
+        return (Perms.REMOVE.has(sender) || Perms.REMOVE_OTHER.has(sender));
     }
 }

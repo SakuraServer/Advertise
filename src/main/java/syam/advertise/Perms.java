@@ -28,6 +28,7 @@ public enum Perms {
     // Admin Commands
     LIST_OTHER ("admin.list"),
     INFO_OTHER ("admin.info"),
+    REMOVE_OTHER ("admin.remove"),
     TASK("admin.task"),
     FORCE("admin.force"),
     RELOAD("admin.reload"),

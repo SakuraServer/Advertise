@@ -80,8 +80,9 @@ public class AdvertiseManager {
      * 広告を削除
      * @param adv_id
      */
-    public void removeAdvertise(final int adv_id){
-        db.write("UPDATE " + db.dataTable + " SET `status` = 1 WHERE `data_id` = ?", adv_id);
+    public void removeAdvertise(final int adv_id, final boolean byStaff){
+        final int status = (!byStaff) ? 1 : 2;
+        db.write("UPDATE " + db.dataTable + " SET `status` = ? WHERE `data_id` = ?", status, adv_id);
     }
 
     /**
