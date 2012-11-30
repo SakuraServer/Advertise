@@ -33,8 +33,14 @@ public class AnnounceTask implements Runnable{
     private static Object lock = new Object();
     private static boolean running = false;
 
+    private int forceID = -1;
+
     public AnnounceTask(final Advertise plugin){
         this.plugin = plugin;
+    }
+    public AnnounceTask(final Advertise plugin, final int data_ID){
+        this.plugin = plugin;
+        this.forceID = data_ID;
     }
 
     public void run(){
@@ -43,33 +49,35 @@ public class AnnounceTask implements Runnable{
             running = true;
         }
         try{
-            final int data_ID = plugin.getManager().getNextID();
-
+            int data_ID = (forceID <= 0) ? plugin.getManager().getNextID() : forceID;
             if (data_ID <= 0) return;
-
-            Ad ad = new Ad(data_ID);
-            if (ad.getText() == null || ad.getText().length() <= 0){
-                return;
-            }
-
-            String text = plugin.getConfigs().getPrefix() + "&6" + ad.getPlayerName() + "&7: &f" + ad.getText();
-            int i = 0;
-            for (Player player : Bukkit.getOnlinePlayers()){
-                if (!plugin.getConfigs().getUseHidePerm() || !Perms.HIDE_ADVERTISE.has(player)){
-                    Actions.message(player, text.replace("%player%", player.getName()));
-                    i++;
-                }
-            }
-            Actions.message(Bukkit.getConsoleSender(), text.replace("%player%", "CONSOLE"));
-
-            // update stats
-            if (i > 0){
-                ad.addViewCount(1);
-                ad.addViewPlayers(i);
-                ad.save();
-            }
+            announce(data_ID);
         }finally{
             running = false;
+        }
+    }
+
+    private void announce(int data_ID){
+        Ad ad = new Ad(data_ID);
+        if (ad.getText() == null || ad.getText().length() <= 0){
+            return;
+        }
+
+        String text = plugin.getConfigs().getPrefix() + "&6" + ad.getPlayerName() + "&7: &f" + ad.getText();
+        int i = 0;
+        for (Player player : Bukkit.getOnlinePlayers()){
+            if (!plugin.getConfigs().getUseHidePerm() || !Perms.HIDE_ADVERTISE.has(player)){
+                Actions.message(player, text.replace("%player%", player.getName()));
+                i++;
+            }
+        }
+        Actions.message(Bukkit.getConsoleSender(), text.replace("%player%", "CONSOLE"));
+
+        // update stats
+        if (i > 0){
+            ad.addViewCount(1);
+            ad.addViewPlayers(i);
+            ad.save();
         }
     }
 }
