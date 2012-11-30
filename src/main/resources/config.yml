@@ -16,6 +16,7 @@ UseHidePermission: false
 #   Limit Config   #
 #==================#
 MaxDays: 7
+MaxPerPlayer: 5
 
 #==================#
 #   Vault Config   #

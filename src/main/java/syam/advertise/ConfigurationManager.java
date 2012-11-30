@@ -115,6 +115,9 @@ public class ConfigurationManager {
     public int getMaxDays(){
         return conf.getInt("MaxDays", 7);
     }
+    public int getMaxPerPlayer(){
+        return conf.getInt("MaxPerPlayer", 5);
+    }
 
     // Vault
     public boolean getUseVault() {

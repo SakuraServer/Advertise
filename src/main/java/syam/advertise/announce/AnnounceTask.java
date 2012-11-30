@@ -33,6 +33,7 @@ public class AnnounceTask implements Runnable{
         if (announce == null || announce.length() <= 0){
             return;
         }
+        announce = plugin.getConfigs().getPrefix() + announce;
 
         for (Player player : Bukkit.getOnlinePlayers()){
             if (!plugin.getConfigs().getUseHidePerm() || !Perms.HIDE_ADVERTISE.has(player)){

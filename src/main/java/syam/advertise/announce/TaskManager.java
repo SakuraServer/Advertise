@@ -48,11 +48,11 @@ public class TaskManager {
             //taskID = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new AnnounceTask(plugin), ticks, ticks);
             taskID = plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, new AnnounceTask(plugin), ticks, ticks);
             if (taskID == -1){
-                if (sender == null) Actions.message(sender, "&cScheduling failed!");
+                if (sender != null) Actions.message(sender, "&cScheduling failed!");
                 log.warning(logPrefix + "Scheduling failed");
                 return false;
             }else{
-                if (sender == null) Actions.message(sender, "&aScheduled every " + plugin.getConfigs().getInterval() + " minutes!");
+                if (sender != null) Actions.message(sender, "&aScheduled every " + plugin.getConfigs().getInterval() + " minutes!");
                 log.info(logPrefix + "Scheduled every " + plugin.getConfigs().getInterval() + " minutes!");
                 return true;
             }

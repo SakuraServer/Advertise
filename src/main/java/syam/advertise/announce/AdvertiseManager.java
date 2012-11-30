@@ -40,8 +40,9 @@ public class AdvertiseManager {
      * @param text
      */
     public void addAdvertise(final String playerName, final int days, final String text){
-        final int playerID = getUserID(playerName, true);
-
+        addAdvertise(getUserID(playerName, true), days, text);
+    }
+    public void addAdvertise(final int playerID, final int days, final String text){
         Long registered = Util.getCurrentUnixSec();
         Long expired = registered + (days * 86400);
 
