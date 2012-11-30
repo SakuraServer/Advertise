@@ -15,6 +15,8 @@ public enum Perms {
     /* 権限ノード */
     // User Commands
     ADD ("user.add"),
+    LIST_SELF ("user.list.self"),
+    LIST_OTHER ("user.list.other"),
 
     // Free Permissions
     ADD_FREE ("free.add"),

@@ -62,7 +62,7 @@ public class AddCommand extends BaseCommand {
             }
         }
 
-        plugin.getManager().addAdvertise(player.getName(), days, text);
+        plugin.getManager().addAdvertise(userID, days, text);
 
         String msg = "&a次の広告を " + days + "日間 登録しました！";
         if (paid) msg = msg + " &c(-" + Actions.getCurrencyString(cost) + ")";
