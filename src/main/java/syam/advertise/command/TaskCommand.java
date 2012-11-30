@@ -16,7 +16,7 @@ public class TaskCommand extends BaseCommand {
         bePlayer = false;
         name = "task";
         argLength = 0;
-        usage = "<enable|disable> <- set task status";
+        usage = "[enable|disable] <- set task status";
     }
 
     @Override
