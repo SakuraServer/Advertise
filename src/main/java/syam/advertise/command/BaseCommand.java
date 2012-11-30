@@ -18,7 +18,7 @@ import syam.advertise.util.Actions;
 
 /**
  * BaseCommand (BaseCommand.java)
- * 
+ *
  * @author syam(syamn)
  */
 public abstract class BaseCommand {
@@ -38,8 +38,7 @@ public abstract class BaseCommand {
     protected Advertise plugin;
     protected ConfigurationManager config;
 
-    public boolean run(final Advertise plugin, final CommandSender sender,
-            final String[] preArgs, final String cmd) {
+    public boolean run(final Advertise plugin, final CommandSender sender, final String[] preArgs, final String cmd) {
         this.plugin = plugin;
         this.config = plugin.getConfigs();
 
@@ -93,7 +92,7 @@ public abstract class BaseCommand {
 
     /**
      * コマンドを実際に実行する
-     * 
+     *
      * @return 成功すればtrue それ以外はfalse
      * @throws CommandException
      *             CommandException
@@ -102,7 +101,7 @@ public abstract class BaseCommand {
 
     /**
      * コマンド実行に必要な権限を持っているか検証する
-     * 
+     *
      * @return trueなら権限あり、falseなら権限なし
      */
     public abstract boolean permission();

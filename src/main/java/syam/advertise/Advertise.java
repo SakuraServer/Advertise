@@ -20,14 +20,17 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import syam.advertise.announce.AdvertiseManager;
+import syam.advertise.announce.TaskManager;
 import syam.advertise.command.BaseCommand;
 import syam.advertise.command.HelpCommand;
 import syam.advertise.command.ReloadCommand;
+import syam.advertise.command.TaskCommand;
 import syam.advertise.util.Metrics;
 
 /**
  * Advertise (Advertise.java)
- * 
+ *
  * @author syam(syamn)
  */
 public class Advertise extends JavaPlugin {
@@ -44,6 +47,8 @@ public class Advertise extends JavaPlugin {
 
     // ** Private Classes **
     private ConfigurationManager config;
+    private TaskManager taskManager;
+    private AdvertiseManager manager;
 
     // ** Instance **
     private static Advertise instance;
@@ -86,10 +91,17 @@ public class Advertise extends JavaPlugin {
         // コマンド登録
         registerCommands();
 
+        // manager
+        taskManager = new TaskManager(this);
+        manager = new AdvertiseManager(this);
+
         // メッセージ表示
         PluginDescriptionFile pdfFile = this.getDescription();
         log.info("[" + pdfFile.getName() + "] version " + pdfFile.getVersion()
                 + " is enabled!");
+
+        // task start
+        taskManager.setSchedule(true, null);
 
         setupMetrics(); // mcstats
     }
@@ -99,6 +111,7 @@ public class Advertise extends JavaPlugin {
      */
     @Override
     public void onDisable() {
+        taskManager.setSchedule(false, null);
         getServer().getScheduler().cancelTasks(this);
 
         // メッセージ表示
@@ -118,6 +131,7 @@ public class Advertise extends JavaPlugin {
         // commands.add(new GenerateCommand());
 
         // Admin Commands
+        commands.add(new TaskCommand());
         commands.add(new ReloadCommand());
     }
 
@@ -163,8 +177,24 @@ public class Advertise extends JavaPlugin {
     }
 
     /**
+     * AnnounceManagerを返す
+     * @return AnnounceManager
+     */
+    public TaskManager getTaskManager(){
+        return this.taskManager;
+    }
+
+    /**
+     * AnnounceManagerを返す
+     * @return AnnounceManager
+     */
+    public AdvertiseManager getManager(){
+        return this.manager;
+    }
+
+    /**
      * Vaultを返す
-     * 
+     *
      * @return Vault
      */
     public Vault getVault() {
@@ -173,7 +203,7 @@ public class Advertise extends JavaPlugin {
 
     /**
      * Economyを返す
-     * 
+     *
      * @return Economy
      */
     public Economy getEconomy() {
@@ -229,7 +259,7 @@ public class Advertise extends JavaPlugin {
 
     /**
      * デバッグログ
-     * 
+     *
      * @param msg
      */
     public void debug(final String msg) {
@@ -241,7 +271,7 @@ public class Advertise extends JavaPlugin {
     /* getter */
     /**
      * コマンドを返す
-     * 
+     *
      * @return List<BaseCommand>
      */
     public List<BaseCommand> getCommands() {
@@ -250,7 +280,7 @@ public class Advertise extends JavaPlugin {
 
     /**
      * 設定マネージャを返す
-     * 
+     *
      * @return ConfigurationManager
      */
     public ConfigurationManager getConfigs() {
@@ -259,7 +289,7 @@ public class Advertise extends JavaPlugin {
 
     /**
      * インスタンスを返す
-     * 
+     *
      * @return MotdManagerインスタンス
      */
     public static Advertise getInstance() {

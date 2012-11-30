@@ -13,7 +13,7 @@ import syam.advertise.util.FileStructure;
 
 /**
  * ConfigurationManager (ConfigurationManager.java)
- * 
+ *
  * @author syam(syamn)
  */
 public class ConfigurationManager {
@@ -101,6 +101,13 @@ public class ConfigurationManager {
     }
 
     /* ***** Begin Configuration Getters *********************** */
+    public String getPrefix(){
+        return conf.getString("Prefix", "&c[Ad]&f ");
+    }
+    public int getInterval(){
+        return conf.getInt("AnnounceInterval", 5);
+    }
+
     public boolean getUseVault() {
         return useVault;
     }

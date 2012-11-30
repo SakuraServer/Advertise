@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.economy.EconomyResponse;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,7 +28,7 @@ import syam.advertise.Advertise;
 
 /**
  * Actions (Actions.java)
- * 
+ *
  * @author syam(syamn)
  */
 public class Actions {
@@ -46,7 +48,7 @@ public class Actions {
     /****************************************/
     /**
      * メッセージをユニキャスト
-     * 
+     *
      * @param message
      *            メッセージ
      */
@@ -59,7 +61,7 @@ public class Actions {
 
     /**
      * タスク実行者にメッセージを送信する
-     * 
+     *
      * @param msg
      */
     public static void sendMessage(String senderName, String msg) {
@@ -82,7 +84,7 @@ public class Actions {
 
     /**
      * メッセージをブロードキャスト
-     * 
+     *
      * @param message
      *            メッセージ
      */
@@ -96,7 +98,7 @@ public class Actions {
 
     /**
      * メッセージをワールドキャスト
-     * 
+     *
      * @param world
      * @param message
      */
@@ -112,7 +114,7 @@ public class Actions {
 
     /**
      * メッセージをパーミッションキャスト(指定した権限ユーザにのみ送信)
-     * 
+     *
      * @param permission
      *            受信するための権限ノード
      * @param message
@@ -136,7 +138,7 @@ public class Actions {
     /****************************************/
     /**
      * 文字配列をまとめる
-     * 
+     *
      * @param s
      *            つなげるString配列
      * @param glue
@@ -158,7 +160,7 @@ public class Actions {
 
     /**
      * コマンドをコンソールから実行する
-     * 
+     *
      * @param command
      */
     public static void executeCommandOnConsole(String command) {
@@ -167,7 +169,7 @@ public class Actions {
 
     /**
      * 文字列の中に全角文字が含まれているか判定
-     * 
+     *
      * @param s
      *            判定する文字列
      * @return 1文字でも全角文字が含まれていればtrue 含まれていなければfalse
@@ -186,7 +188,7 @@ public class Actions {
 
     /**
      * 現在の日時を yyyy-MM-dd HH:mm:ss 形式の文字列で返す
-     * 
+     *
      * @return
      */
     public static String getDatetime() {
@@ -198,7 +200,7 @@ public class Actions {
 
     /**
      * 座標データを ワールド名:x, y, z の形式の文字列にして返す
-     * 
+     *
      * @param loc
      * @return
      */
@@ -214,7 +216,7 @@ public class Actions {
 
     /**
      * デバッグ用 syamnがオンラインならメッセージを送る
-     * 
+     *
      * @param msg
      */
     public static void debug(String msg) {
@@ -224,12 +226,76 @@ public class Actions {
         }
     }
 
+
+    /****************************************/
+    // 所持金操作系関数 - Vault
+    /****************************************/
+    /**
+     * 指定したユーザーにお金を加える
+     * @param name ユーザー名
+     * @param amount 金額
+     * @return 成功ならtrue、失敗ならfalse
+     */
+    public static boolean addMoney(String name, double amount){
+        if (amount < 0) return false; // 負数は許容しない
+        EconomyResponse r = Advertise.getInstance().getEconomy().depositPlayer(name, amount);
+        if(r.transactionSuccess()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * 指定したユーザーからお金を引く
+     * @param name ユーザー名
+     * @param amount 金額
+     * @return 成功ならtrue、失敗ならfalse
+     */
+    public static boolean takeMoney(String name, double amount){
+        if (amount < 0) return false; // 負数は許容しない
+        EconomyResponse r = Advertise.getInstance().getEconomy().withdrawPlayer(name, amount);
+        if(r.transactionSuccess()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * 指定したユーザーがお金を持っているか
+     * @param name ユーザー名
+     * @param amount 金額
+     * @return 持っていればtrue、無ければfalse
+     */
+    public static boolean checkMoney(String name, double amount){
+        return (Advertise.getInstance().getEconomy().has(name, amount));
+    }
+    /**
+     * 指定した金額での適切な通貨単位を返す
+     * @param amount 金額
+     * @return 通貨単位
+     */
+    public static String getCurrencyName(double amount){
+        if (amount <= 1.0D){
+            return Advertise.getInstance().getEconomy().currencyNameSingular();
+        }else{
+            return Advertise.getInstance().getEconomy().currencyNamePlural();
+        }
+    }
+    /**
+     * 指定した金額での適切な単位を含めた文字列を返す
+     * @param amount 金額
+     * @return 文字列
+     */
+    public static String getCurrencyString(double amount){
+        return Advertise.getInstance().getEconomy().format(amount);
+    }
+
     /****************************************/
     /* ログ操作系 */
     /****************************************/
     /**
      * ログファイルに書き込み
-     * 
+     *
      * @param file
      *            ログファイル名
      * @param line

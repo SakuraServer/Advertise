@@ -2,6 +2,14 @@
 # @author syamn <admin@sakura-server.net>
 # github: https://github.com/syamn/Advertise
 
+#=====================#
+#   Announce Config   #
+#=====================#
+# Prefix of advertise message
+Prefix: "&c[Ad]&f "
+# Announce interval in Minutes
+AnnounceInterval: 5
+
 #==================#
 #   Debug Config   #
 #==================#

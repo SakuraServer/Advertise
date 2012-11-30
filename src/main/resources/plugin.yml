@@ -13,6 +13,12 @@ commands:
       aliases: [ad]
       description: To see the Advertise help.
 permissions:
+    advertise.hide:
+        default: false
+        description: Hide advertisement permission
+    advertise.admin.task:
+        default: op
+        description: Allow use task command
     advertise.admin:
         default: op
         description: Allow use admin commands
