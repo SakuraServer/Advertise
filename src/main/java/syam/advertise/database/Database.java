@@ -57,6 +57,10 @@ public class Database {
             log.severe(ex2.getLocalizedMessage());
             printErrors(ex2);
         }
+
+        // Tables
+        this.userTable = getTablePrefix() + "user";
+        this.dataTable = getTablePrefix() + "data";
     }
 
     /**
@@ -80,8 +84,8 @@ public class Database {
     }
 
     // Table Name
-    public final String userTable = getTablePrefix() + "user";
-    public final String dataTable = getTablePrefix() + "data";
+    public final String userTable;
+    public final String dataTable;
 
     /**
      * データベース構造を構築する
@@ -106,7 +110,7 @@ public class Database {
                 "`text` varchar(255) NOT NULL," +                           // 広告文
                 "`view_count` int(10) unsigned NOT NULL DEFAULT '0'," +     // 割り当てられたプレイヤーID
                 "`view_players` int(10) unsigned NOT NULL DEFAULT '0'," +   // 割り当てられたプレイヤーID
-                "PRIMARY KEY (`data_id`)," +
+                "PRIMARY KEY (`data_id`)" +
                 ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
     }
 

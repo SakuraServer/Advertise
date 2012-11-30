@@ -22,6 +22,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import syam.advertise.announce.AdvertiseManager;
 import syam.advertise.announce.TaskManager;
+import syam.advertise.command.AddCommand;
 import syam.advertise.command.BaseCommand;
 import syam.advertise.command.HelpCommand;
 import syam.advertise.command.ReloadCommand;
@@ -136,7 +137,7 @@ public class Advertise extends JavaPlugin {
         commands.add(new HelpCommand());
 
         // Main Commands
-        // commands.add(new GenerateCommand());
+        commands.add(new AddCommand());
 
         // Admin Commands
         commands.add(new TaskCommand());

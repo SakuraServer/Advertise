@@ -35,6 +35,10 @@ public class AddCommand extends BaseCommand {
         }
 
         String text = Util.join(args, " ");
+        if (text.length() > 100){
+            throw new CommandException("&c広告文が100文字を超えています！ (" + text.length() + "文字)");
+        }
+
 
         // pay cost
         boolean paid = false;
