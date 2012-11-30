@@ -110,6 +110,9 @@ public class ConfigurationManager {
     public boolean getUseHidePerm(){
         return conf.getBoolean("UseHidePermission", false);
     }
+    public String getSoundEffect(){
+        return conf.getString("SoundEffect", "");
+    }
 
     // Limit
     public int getMaxDays(){

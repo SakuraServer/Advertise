@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import net.minecraft.server.Packet62NamedSoundEffect;
+
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import com.avaje.ebeaninternal.server.autofetch.TunedQueryInfo;
@@ -65,9 +69,18 @@ public class AnnounceTask implements Runnable{
 
         // default ad color: &3
         String text = plugin.getConfigs().getPrefix() + "&6" + ad.getPlayerName() + "&7: &3" + ad.getText();
+        String se = plugin.getConfigs().getSoundEffect();
+
         int i = 0;
         for (Player player : Bukkit.getOnlinePlayers()){
             if (!plugin.getConfigs().getUseHidePerm() || !Perms.HIDE_ADVERTISE.has(player)){
+                // 送信
+                if (se != null && se.length() > 0){
+                    Location ploc = player.getLocation();
+                    ((CraftPlayer)player).getHandle().netServerHandler.sendPacket(
+                            new Packet62NamedSoundEffect(se, ploc.getX(), ploc.getY(), ploc.getZ(), 1.0F, 1.0F)
+                            );
+                }
                 Actions.message(player, text.replace("%player%", player.getName()));
                 i++;
             }

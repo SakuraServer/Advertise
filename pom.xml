@@ -183,6 +183,13 @@
           <version>1.4.5-R0.3-SNAPSHOT</version>
           <scope>compile</scope>
       </dependency>
+      <!-- CraftBukkit Dependency -->
+      <dependency>
+          <groupId>org.bukkit</groupId>
+          <artifactId>craftbukkit</artifactId>
+          <version>1.4.5-R0.3-SNAPSHOT</version>
+          <scope>compile</scope>
+      </dependency>
       <!-- Vault Dependency -->
       <dependency>
           <groupId>net.milkbowl.vault</groupId>
