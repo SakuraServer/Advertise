@@ -7,10 +7,12 @@ package syam.advertise.command;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import syam.advertise.Advertise;
 import syam.advertise.Perms;
+import syam.advertise.announce.Ad;
 import syam.advertise.database.Database;
 import syam.advertise.exception.CommandException;
 import syam.advertise.util.Actions;
@@ -39,23 +41,17 @@ public class RemoveCommand extends BaseCommand {
             throw new CommandException("&cInvalid number: " + data_id);
         }
 
-        Database db = Advertise.getDatabases();
-        HashMap<Integer, ArrayList<String>> records = db.read("SELECT `player_id`, `status`, `expired`, `text` FROM " + db.dataTable + " WHERE data_id = ?", data_id);
-        if (records == null || records.size() <= 0){
+        Ad ad;
+        try{
+            ad= new Ad(data_id);
+        }catch (IllegalArgumentException ex){
             throw new CommandException("&c広告ID " + data_id + " が見つかりません！");
         }
-
-        ArrayList<String> data = records.get(1);
-        int ad_userID = Integer.parseInt(data.get(0));
-        int ad_status = Integer.parseInt(data.get(1));
-        Long ad_expired = Long.parseLong(data.get(2));
-        String ad_text = data.get(3);
 
         // bypass check
         boolean other = false;
         if (sender instanceof Player){
-            int userID = plugin.getManager().getUserID(player.getName(), false);
-            if (ad_userID != userID){
+            if (ad.getPlayerName() != player.getName()){
                 if (!Perms.REMOVE_OTHER.has(sender)){
                     throw new CommandException("&c指定したIDはあなたの広告ではありません！");
                 }else{
@@ -66,7 +62,7 @@ public class RemoveCommand extends BaseCommand {
             other = true;
         }
 
-        if (ad_status != 0 || ad_expired <= Util.getCurrentUnixSec()){
+        if (ad.getStatus() != 0 || ad.getExpired() <= Util.getCurrentUnixSec()){
             throw new CommandException("&c指定したIDはアクティブ広告ではありません！");
         }
 
@@ -75,10 +71,14 @@ public class RemoveCommand extends BaseCommand {
 
         // send message
         Actions.message(sender, "&a次の広告(#" + data_id + ")を削除しました！");
-        Actions.message(sender, "&7->&f " + ad_text);
+        Actions.message(sender, "&7->&f " + ad.getText());
+
         if (other){
-            Actions.message(sender, msgPrefix + "&c次の広告(#" + data_id + ")はスタッフ &6" + sender.getName() + "&cによって削除されました");
-            Actions.message(sender, "&7->&f " + ad_text);
+            Player p = Bukkit.getPlayerExact(ad.getPlayerName());
+            if (p != null && p.isOnline()){
+                Actions.message(p, msgPrefix + "&c次の広告(#" + data_id + ")はスタッフ &6" + sender.getName() + "&cによって削除されました");
+                Actions.message(p, "&7->&f " + ad.getText());
+            }
         }
     }
 

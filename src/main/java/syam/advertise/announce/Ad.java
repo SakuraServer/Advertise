@@ -29,8 +29,8 @@ public class Ad {
     private int view_players = 0;
 
     public Ad(final int dataID){
-        HashMap<Integer, ArrayList<String>> records = db.read("SELECT `player_id`, `player_name`, `status`, `registered`, `expired`, `text`, `view_count`, `view_players`" +
-                " FROM " + db.dataTable + " NATURAL JOIN " + db.userTable + " WHERE data_id = ?", dataID);
+        HashMap<Integer, ArrayList<String>> records = db.read("SELECT " + db.dataTable + ".player_id, `player_name`, " + db.dataTable + ".`status`, `registered`, `expired`, `text`, `view_count`, `view_players`" +
+                " FROM " + db.dataTable + " JOIN " + db.userTable + " ON " + db.dataTable + ".player_id = " + db.userTable + ".player_id WHERE data_id = ?", dataID);
         if(records == null || records.size() <= 0){
             throw new IllegalArgumentException("Record not found by advertise id " + dataID);
         }

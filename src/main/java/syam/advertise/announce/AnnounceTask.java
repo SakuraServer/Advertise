@@ -60,7 +60,7 @@ public class AnnounceTask implements Runnable{
                     i++;
                 }
             }
-            log.info(text.replace("%player%", "CONSOLE"));
+            Actions.message(Bukkit.getConsoleSender(), text.replace("%player%", "CONSOLE"));
 
             // update stats
             if (i > 0){

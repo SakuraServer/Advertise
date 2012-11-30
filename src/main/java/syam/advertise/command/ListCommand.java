@@ -32,6 +32,7 @@ public class ListCommand extends BaseCommand {
     @Override
     public void execute() throws CommandException {
         boolean self = false;
+        boolean full = false;
         boolean console = false;
         if (!(sender instanceof Player)){
             console = true;
@@ -44,26 +45,34 @@ public class ListCommand extends BaseCommand {
             target = (!console) ? player.getName() : null;
             self = (!console) ? true : false;
         }else{
-            // check perm
-            if (!Perms.LIST_OTHER.has(sender)){
-                throw new CommandException("&cあなたは他人の広告リストを見る権限がありません");
-            }
-
-            target = args.get(0);
+            target = args.remove(0);
             if (target.equalsIgnoreCase("-all")){
-                target = null;
+                target = (!console) ? player.getName() : null;
+                self = (!console) ? true : false;
+                full = true;
+            }else{
+                if (!Perms.LIST_OTHER.has(sender)){
+                    throw new CommandException("&cあなたは他人の広告リストを見る権限がありません");
+                }
+                if (target.equalsIgnoreCase("--all")){
+                    target = null;
+                }else if (target.equalsIgnoreCase("---all")){
+                    target = null;
+                    full = true;
+                }
             }
         }
 
         String header = msgPrefix;
+        String active = (full) ? "全" : "アクティブ";
         if (target == null){
-            header += "&a全アクティブ広告リスト";
+            header += "&a" + active + "広告リスト";
         }else{
-            if (self) header += "&aあなたのアクティブ広告リスト";
-            else header += "&a" + target + " のアクティブ広告リスト";
+            if (self) header += "&aあなたの" + active + "広告リスト";
+            else header += "&a" + target + " の" + active + "広告リスト";
         }
 
-        List<String> lines = buildStrings(target);
+        List<String> lines = buildStrings(target, full);
         if (lines == null || lines.size() <= 0){
             Actions.message(sender, header + "&7(0)");
             Actions.message(sender, "&7 (なし)");
@@ -75,7 +84,7 @@ public class ListCommand extends BaseCommand {
         }
     }
 
-    private List<String> buildStrings(final String target){
+    private List<String> buildStrings(final String target, boolean full){
         List<String> ret = new ArrayList<String>();
         Database db = Advertise.getDatabases();
 
@@ -85,14 +94,22 @@ public class ListCommand extends BaseCommand {
             if (playerID <= 0){
                 return null;
             }
-            datas = db.read("SELECT `data_id`, `text` FROM " + db.dataTable + " WHERE player_id = ? AND `expired` > ? AND `status` = 0", playerID, Util.getCurrentUnixSec().intValue());
+
+            if (full) datas = db.read("SELECT `data_id`, `text` FROM " + db.dataTable + " WHERE player_id = ?", playerID);
+            else datas = db.read("SELECT `data_id`, `text` FROM " + db.dataTable + " WHERE player_id = ? AND `expired` > ? AND `status` = 0", playerID, Util.getCurrentUnixSec().intValue());
+
             for (ArrayList<String> record : datas.values()){
                 ret.add("&2#&a" + record.get(0) + "&7: &f" + record.get(1));
             }
         }
         else{
-            datas = db.read("SELECT `data_id`, `player_name`, `text` FROM " + db.dataTable + " NATURAL JOIN " + db.userTable +
-                    " WHERE `expired` > ? AND `status` = 0", Util.getCurrentUnixSec().intValue());
+            if (full) datas = db.read("SELECT `data_id`, `player_name`, `text` FROM " + db.dataTable + " JOIN " + db.userTable + " ON " + db.dataTable + ".player_id = " + db.userTable + ".player_id");
+            else datas = db.read("SELECT `data_id`, `player_name`, `text` FROM " + db.dataTable + " JOIN " + db.userTable + " ON " + db.dataTable + ".player_id = " + db.userTable + ".player_id" +
+                    " WHERE `expired` > ? AND " + db.dataTable + ".`status` = 0", Util.getCurrentUnixSec().intValue());
+
+            // db.read("SELECT " + db.dataTable + ".player_id, `player_name`, " + db.dataTable + ".`status`, `registered`, `expired`, `text`, `view_count`, `view_players`" +
+            //" FROM " + db.dataTable + " JOIN " + db.userTable + " ON " + db.dataTable + ".player_id = " + db.userTable + ".player_id WHERE data_id = ?", dataID);
+
             for (ArrayList<String> record : datas.values()){
                 ret.add("&2#&a" + record.get(0) + "&7: &6" + record.get(1) + "&7: &f" + record.get(2));
             }
