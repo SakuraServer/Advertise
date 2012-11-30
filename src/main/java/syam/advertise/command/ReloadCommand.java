@@ -9,7 +9,7 @@ import syam.advertise.util.Actions;
 
 /**
  * ReloadCommand (ReloadCommand.java)
- * 
+ *
  * @author syam(syamn)
  */
 public class ReloadCommand extends BaseCommand {
@@ -22,6 +22,10 @@ public class ReloadCommand extends BaseCommand {
 
     @Override
     public void execute() {
+        if (plugin.getTaskManager().isRunning()){
+            plugin.getTaskManager().setSchedule(false, sender);
+        }
+
         try {
             plugin.getConfigs().loadConfig(false);
         } catch (Exception ex) {
@@ -31,6 +35,7 @@ public class ReloadCommand extends BaseCommand {
             return;
         }
         Actions.message(sender, "&aConfiguration reloaded!");
+        plugin.getTaskManager().setSchedule(true, sender);
     }
 
     @Override

@@ -34,6 +34,8 @@ public class AnnounceTask implements Runnable{
 
     public void run(){
         final int data_ID = plugin.getManager().getNextID();
+        if (data_ID <= 0) return;
+        
         Ad ad = new Ad(data_ID);
         if (ad.getText() == null || ad.getText().length() <= 0){
             return;
