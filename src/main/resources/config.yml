@@ -9,11 +9,27 @@
 Prefix: "&c[Ad]&f "
 # Announce interval in Minutes
 AnnounceInterval: 5
+# Use hide permission (advertise.hide)
+UseHidePermission: false
+# Use Vauld plugin
+UseVault: false
+
+#==================#
+#   MySQL Config   #
+#==================#
+MySQL:
+  Server:
+    Address: localhost
+    Port: 3306
+  Database:
+    Name: DatabaseName
+    User_Name: UserName
+    User_Password: UserPassword
+    TablePrefix: ad_
 
 #==================#
 #   Debug Config   #
 #==================#
-UseVault: false
 Debug: false
 
 #==================#

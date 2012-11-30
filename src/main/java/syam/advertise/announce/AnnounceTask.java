@@ -35,7 +35,7 @@ public class AnnounceTask implements Runnable{
         }
 
         for (Player player : Bukkit.getOnlinePlayers()){
-            if (!Perms.HIDE_ADVERTISE.has(player)){
+            if (!plugin.getConfigs().getUseHidePerm() || !Perms.HIDE_ADVERTISE.has(player)){
                 Actions.message(player, announce.replace("%player%", player.getName()));
             }
         }

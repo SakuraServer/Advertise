@@ -101,21 +101,45 @@ public class ConfigurationManager {
     }
 
     /* ***** Begin Configuration Getters *********************** */
+    // Advertise
     public String getPrefix(){
         return conf.getString("Prefix", "&c[Ad]&f ");
     }
     public int getInterval(){
         return conf.getInt("AnnounceInterval", 5);
     }
+    public boolean getUseHidePerm(){
+        return conf.getBoolean("UseHidePermission", false);
+    }
 
     public boolean getUseVault() {
         return useVault;
     }
-
     public void setUseVault(final boolean bool) {
         this.useVault = bool;
     }
 
+    // MySQL
+    public String getMySqlAddress(){
+        return conf.getString("MySQL.Server.Address", "localhost");
+    }
+    public int getMySqlPort(){
+        return conf.getInt("MySQL.Server.Port", 3306);
+    }
+    public String getMySqlDB(){
+        return conf.getString("MySQL.Database.Name", "DatabaseName");
+    }
+    public String getMySqlUser(){
+        return conf.getString("MySQL.Database.User_Name", "UserName");
+    }
+    public String getMySqlPass(){
+        return conf.getString("MySQL.Database.User_Password", "UserPassword");
+    }
+    public String getMySqlTablePrefix(){
+        return conf.getString("MySQL.Database.TablePrefix", "ad_");
+    }
+
+    // Debug
     public boolean isDebug() {
         return conf.getBoolean("Debug", false);
     }

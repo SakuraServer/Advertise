@@ -26,6 +26,7 @@ import syam.advertise.command.BaseCommand;
 import syam.advertise.command.HelpCommand;
 import syam.advertise.command.ReloadCommand;
 import syam.advertise.command.TaskCommand;
+import syam.advertise.database.Database;
 import syam.advertise.util.Metrics;
 
 /**
@@ -49,6 +50,9 @@ public class Advertise extends JavaPlugin {
     private ConfigurationManager config;
     private TaskManager taskManager;
     private AdvertiseManager manager;
+
+    // ** Static **
+    private static Database database;
 
     // ** Instance **
     private static Advertise instance;
@@ -91,17 +95,21 @@ public class Advertise extends JavaPlugin {
         // コマンド登録
         registerCommands();
 
+        // database
+        database = new Database(this);
+        database.createStructure();
+
         // manager
         taskManager = new TaskManager(this);
         manager = new AdvertiseManager(this);
+
+        // task start
+        taskManager.setSchedule(true, null);
 
         // メッセージ表示
         PluginDescriptionFile pdfFile = this.getDescription();
         log.info("[" + pdfFile.getName() + "] version " + pdfFile.getVersion()
                 + " is enabled!");
-
-        // task start
-        taskManager.setSchedule(true, null);
 
         setupMetrics(); // mcstats
     }
@@ -208,6 +216,14 @@ public class Advertise extends JavaPlugin {
      */
     public Economy getEconomy() {
         return economy;
+    }
+
+    /**
+     * データベースを返す
+     * @return Database
+     */
+    public static Database getDatabases(){
+        return database;
     }
 
     /**
