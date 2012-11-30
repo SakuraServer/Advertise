@@ -11,6 +11,8 @@ Prefix: "&c[Ad]&f "
 AnnounceInterval: 5
 # Use hide permission (advertise.hide)
 UseHidePermission: false
+# Use Random mode
+RandomMode: false
 # Send sound effect
 SoundEffect: ""
 

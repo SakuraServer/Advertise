@@ -6,6 +6,7 @@ package syam.advertise.announce;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import syam.advertise.Advertise;
@@ -40,20 +41,29 @@ public class AdvertiseManager {
             return -1;
         }
 
-        boolean found = false;
         int data_id = -1;
-        for(ArrayList<String> record : records.values()){
-            data_id = Integer.parseInt(record.get(0));
-            if (data_id > lastID){
-                lastID = data_id;
-                found = true;
-                break;
+        // Normal mode
+        if (!plugin.getConfigs().getRandomMode()){
+            boolean found = false;
+            for(ArrayList<String> record : records.values()){
+                data_id = Integer.parseInt(record.get(0));
+                if (data_id > lastID){
+                    lastID = data_id;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found){
+                // not 0, first index: 1
+                data_id = Integer.parseInt(records.get(1).get(0));
+                lastID = 0;
             }
         }
-        if (!found){
-            // not 0, first index: 1
-            data_id = Integer.parseInt(records.get(1).get(0));
-            lastID = 0;
+        // Randome mode
+        else{
+            Random rnd = new Random();
+            int ran = rnd.nextInt(records.size()) + 1;
+            data_id = Integer.parseInt(records.get(ran).get(0));
         }
 
         return data_id;
