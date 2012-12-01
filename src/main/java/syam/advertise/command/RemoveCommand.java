@@ -51,7 +51,7 @@ public class RemoveCommand extends BaseCommand {
         // bypass check
         boolean other = false;
         if (sender instanceof Player){
-            if (ad.getPlayerName() != player.getName()){
+            if (!ad.getPlayerName().equals(player.getName())){
                 if (!Perms.REMOVE_OTHER.has(sender)){
                     throw new CommandException("&c指定したIDはあなたの広告ではありません！");
                 }else{
