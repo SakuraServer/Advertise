@@ -71,7 +71,7 @@ public class AddCommand extends BaseCommand {
         String msg = "&a次の広告を " + days + "日間 登録しました！";
         if (paid) msg = msg + " &c(-" + Actions.getCurrencyString(cost) + ")";
         Actions.message(sender, msg);
-        Actions.message(sender, "&7->&f " + text);
+        Actions.message(sender, "&7->&f " + text.replace("%player%", sender.getName()));
     }
 
     @Override
