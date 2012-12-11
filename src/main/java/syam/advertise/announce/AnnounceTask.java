@@ -4,24 +4,18 @@
  */
 package syam.advertise.announce;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Logger;
 
-import net.minecraft.server.Packet62NamedSoundEffect;
+import net.minecraft.server.v1_4_5.Packet62NamedSoundEffect;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_4_5.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-
-import com.avaje.ebeaninternal.server.autofetch.TunedQueryInfo;
 
 import syam.advertise.Advertise;
 import syam.advertise.Perms;
-import syam.advertise.database.Database;
 import syam.advertise.util.Actions;
-import syam.advertise.util.Util;
 
 /**
  * AnnounceTask (AnnounceTask.java)
