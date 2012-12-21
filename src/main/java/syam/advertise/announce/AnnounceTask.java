@@ -6,11 +6,11 @@ package syam.advertise.announce;
 
 import java.util.logging.Logger;
 
-import net.minecraft.server.v1_4_5.Packet62NamedSoundEffect;
+import net.minecraft.server.v1_4_6.Packet62NamedSoundEffect;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_4_5.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import syam.advertise.Advertise;
@@ -71,7 +71,7 @@ public class AnnounceTask implements Runnable{
                 // 送信
                 if (se != null && se.length() > 0){
                     Location ploc = player.getLocation();
-                    ((CraftPlayer)player).getHandle().netServerHandler.sendPacket(
+                    ((CraftPlayer)player).getHandle().playerConnection.sendPacket(
                             new Packet62NamedSoundEffect(se, ploc.getX(), ploc.getY(), ploc.getZ(), 1.0F, 1.0F)
                             );
                 }
