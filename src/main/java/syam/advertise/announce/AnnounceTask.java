@@ -6,11 +6,11 @@ package syam.advertise.announce;
 
 import java.util.logging.Logger;
 
-import net.minecraft.server.v1_7_R1.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_7_R4.PacketPlayOutNamedSoundEffect;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import syam.advertise.Advertise;

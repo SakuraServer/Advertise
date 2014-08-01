@@ -349,7 +349,7 @@ public class Metrics {
         encodeDataPair(data, "version", description.getVersion());
         encodeDataPair(data, "server", Bukkit.getVersion());
         encodeDataPair(data, "players",
-                Integer.toString(Bukkit.getServer().getOnlinePlayers().length));
+                Integer.toString(Bukkit.getServer().getOnlinePlayers().size()));
         encodeDataPair(data, "revision", String.valueOf(REVISION));
 
         // If we're pinging, append it
